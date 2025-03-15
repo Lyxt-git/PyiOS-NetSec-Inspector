@@ -45,4 +45,4 @@ Future Plan :
  - Killswitch Creation (When BYOD enter the malicious network)
  - IPS Based on Emerging Threat Rules DB (Parsing the IP)
 
-Idea by : Lyxt
+Idea by : Lyxt @ https://teamsec.carrd.co/
