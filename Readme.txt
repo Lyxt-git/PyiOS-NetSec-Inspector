@@ -1,7 +1,7 @@
 NetSec Inspector (Experimental) - Future development may implement SwiftUI for Mobile Applicaiton (iOS)
 
 [Intro]
-NetSec-Inspector is a network security monitoring tool designed for iOS using SwiftUI. It provides real-time network security insights, including:
+NetSec-Inspector is a network security monitoring tool designed for iOS. It provides real-time network security insights, including:
 
 [Task]
 Monitoring Assigned IP by Carrier, VPN and DNS.
@@ -25,6 +25,12 @@ This PoC demonstrates the practical feasibility of using OSINT (Open-Source Inte
 ✅ Check threat intelligence of public IP & DNS via AbuseIPDB.
 ✅ Send instant Telegram alerts for suspicious activities.
 
+[New Feature]
+✅ Add VT API for Detection
+
+[Future Implementation]
+✅ Constant Variable read from CSV (Such as Emerging Threat DB List]
+
 [Others]
 Information : This is an experimental testing between automatic DNS Assigned and Decentralize DNS Handshake Resolver within HNSNS (Eskimo LLC) run with Carrier and Telegram Bot for Logging for DFIR (in case of BYOD, this script can provide insight of what happen within the BYOD Network Environment) good for Network Forensic and Analysis.
 
@@ -39,10 +45,5 @@ The API variable in this script is Hardcoded (For Testing Only), not recommend i
 Usage : 
  - Run Script within Mobile Device that run with Carrier (or Apps if Compiled)
  - Read Logs via Telegram Bot for Security Teams insight.
-
-
-Future Plan :
- - Killswitch Creation (When BYOD enter the malicious network)
- - IPS Based on Emerging Threat Rules DB (Parsing the IP)
 
 Idea by : Lyxt @ https://teamsec.carrd.co/
