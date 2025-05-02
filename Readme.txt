@@ -1,49 +1,25 @@
-NetSec Inspector (Experimental) - Future development may implement SwiftUI for Mobile Applicaiton (iOS)
+# IP and DNS Security Monitoring Script
 
-[Intro]
-NetSec-Inspector is a network security monitoring tool designed for iOS. It provides real-time network security insights, including:
+This Python script performs regular checks on your public IP and DNS resolvers. It monitors and classifies the IP and DNS information, providing security insights via Telegram. The tool checks if the current IP is trusted or blacklisted, and whether DNS resolvers are trustworthy or potentially malicious.
 
-[Task]
-Monitoring Assigned IP by Carrier, VPN and DNS.
-	•	Public IP address detection
-	•	DNS resolver monitoring
-	•	Threat intelligence lookup (AbuseIPDB)
-	•	Telegram alerts for suspicious activity
+## Features:
+- Get the public IPv4 address.
+- Fetch geolocation information for the public IP.
+- Fetch DNS resolver information and classify them as Trusted DNS, Blacklisted DNS, or Unknown DNS.
+- Send detailed security alerts via Telegram Bot.
+- Supports monitoring for IP and DNS resolver status at regular intervals.
 
-[Proof-of-Concept]
-NetSec Inspector – Proof of Concept (PoC)
+## Requirements:
+- Python 3.x
+- `requests` library (for API calls and HTTP requests)
+- `socket` library (for DNS resolution)
+- Telegram Bot API Token
+- Optional: AbuseIPDB API key, VirusTotal API key (for future use)
 
-[Overview]
+## Setup:
 
-This PoC demonstrates the practical feasibility of using OSINT (Open-Source Intelligence) techniques for real-time network security monitoring on iOS (Debug and Compiled via Pyto IDE)
+### 1. Install Dependencies
+Make sure you have the required dependencies installed. You can install them using `pip`:
 
-[Objectives]
-
-✅ Monitor public IP changes dynamically.
-✅ Identify geolocation data of the public IP (Country, City, ISP, Coordinates).
-✅ Classify DNS resolvers as trusted (HNSNS) or untrusted (carrier-assigned).
-✅ Check threat intelligence of public IP & DNS via AbuseIPDB.
-✅ Send instant Telegram alerts for suspicious activities.
-
-[New Feature]
-✅ Add VT API for Detection
-
-[Future Implementation]
-✅ Constant Variable read from CSV (Such as Emerging Threat DB List]
-
-[Others]
-Information : This is an experimental testing between automatic DNS Assigned and Decentralize DNS Handshake Resolver within HNSNS (Eskimo LLC) run with Carrier and Telegram Bot for Logging for DFIR (in case of BYOD, this script can provide insight of what happen within the BYOD Network Environment) good for Network Forensic and Analysis.
-
-[Documentation]
-3rd Party Documentation.
- - HNSNS Docs :
-https://hnsns.net/privacy
- - Telegram Bot API : https://core.telegram.org/bots/api
-
-The API variable in this script is Hardcoded (For Testing Only), not recommend in production, you may want to modify it for security.
-
-Usage : 
- - Run Script within Mobile Device that run with Carrier (or Apps if Compiled)
- - Read Logs via Telegram Bot for Security Teams insight.
-
-Idea by : Lyxt @ https://teamsec.carrd.co/
+```bash
+pip install requests
