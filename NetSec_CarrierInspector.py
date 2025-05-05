@@ -3,17 +3,16 @@ import time
 import socket
 
 # API Keys
-BOT_TOKEN = ""  # Replace with your actual Telegram Bot Token
-CHAT_ID = ""  # Replace with your actual Telegram Chat ID
-ABUSEIPDB_API_KEY = ""  # Replace with your AbuseIPDB API key
-VT_API_KEY = ""  # Replace with your VirusTotal API key
+BOT_TOKEN = ""  # Gantikan dengan Telegram Bot Token anda
+CHAT_ID = ""  # Gantikan dengan Chat ID anda
+ABUSEIPDB_API_KEY = ""  # Optional: Tambah API key AbuseIPDB jika ingin integrasi
+VT_API_KEY = ""  # Optional: VirusTotal API Key
 
-# Trusted & Blacklisted IPs/DNS
-TRUSTED_IPS = []  # Add your trusted public IPs if any
-HNSNS_DNS = {"142.250.80.110": "Eskimo LLC"}  # Trusted DNS resolver IPs with their provider names
-BLACKLISTED_DNS = {""}  # Known bad DNS resolvers
-
-BLACKLISTED_IPS = {""}  # Add known bad IPs
+# Senarai IP/DNS dipercayai & disenarai hitam
+TRUSTED_IPS = []
+HNSNS_DNS = {"": "Eskimo LLC"}
+BLACKLISTED_DNS = {""}
+BLACKLISTED_IPS = {""}
 
 def get_public_ipv4():
     urls = [
@@ -27,8 +26,30 @@ def get_public_ipv4():
             if response.status_code == 200:
                 return response.text.strip()
         except requests.RequestException:
-            continue  
+            continue
     return "Unknown"
+
+def get_local_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('8.8.8.8', 80))  # Fake connection to detect interface
+        ip = s.getsockname()[0]
+    except Exception:
+        ip = 'N/A'
+    finally:
+        s.close()
+    return ip
+
+def get_local_port():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.bind(('0.0.0.0', 0))  # Bind to any available port
+        local_port = s.getsockname()[1]
+    except Exception:
+        local_port = 'N/A'
+    finally:
+        s.close()
+    return local_port
 
 def get_geolocation(ip):
     try:
@@ -52,7 +73,6 @@ def get_dns_info():
 
 def classify_dns_and_ips(dns_ips):
     ip_status_map = {}
-
     for ip in dns_ips:
         if ip in HNSNS_DNS:
             ip_status_map[ip] = f"🟢 TDNS (HNSDNS {HNSNS_DNS[ip]}) 🟢"
@@ -60,7 +80,6 @@ def classify_dns_and_ips(dns_ips):
             ip_status_map[ip] = f"🔴 BDNS ({BLACKLISTED_DNS[ip]}) 🔴"
         else:
             ip_status_map[ip] = "🟡 UDNS 🟡"
-
     return ip_status_map
 
 def send_telegram_message(message):
@@ -69,10 +88,12 @@ def send_telegram_message(message):
     try:
         requests.post(url, data=data, timeout=5)
     except requests.RequestException:
-        pass  
+        pass
 
 def monitor_ip_and_dns():
     current_ip = get_public_ipv4()
+    local_ip = get_local_ip()
+    local_port = get_local_port()
     geo_info, latitude, longitude, isp = get_geolocation(current_ip)
 
     if current_ip in TRUSTED_IPS:
@@ -87,15 +108,15 @@ def monitor_ip_and_dns():
     dns_summary = "\n".join(f"🔹 {ip}: {status}" for ip, status in ip_status_map.items())
 
     alert_message = (
-        "🌐 IP & DNS Security Check (OSINT) 🌐\n\n"
-        "🔹 Public IP Details :\n"
+        "🌐 *IP & DNS Security Check (OSINT)* 🌐\n\n"
+        f"🔹 *Local IP* : `{local_ip}`\n"
+        f"🔹 *Local Port* : `{local_port}`\n"
+        f"🔹 *Public IP* : `{current_ip}`\n"
         f"{ip_status}\n"
-        f"🔹 IP: {current_ip}\n"
-        f"🔹 Org: {isp}\n"
-        f"🔹 LOC: {geo_info}\n"
-        f"🔹 LAT: {latitude}, LON: {longitude}\n\n"
-        "🔹 DNS Resolver Details :\n"
-        f"{dns_summary}\n"
+        f"🔹 *ISP* : {isp}\n"
+        f"🔹 *Location* : {geo_info}\n"
+        f"🔹 *LAT/LON* : {latitude}, {longitude}\n\n"
+        f"🔹 *DNS Resolvers* :\n{dns_summary}\n"
     )
     
     send_telegram_message(alert_message)
