@@ -8,6 +8,7 @@ This Python script performs regular checks on your public IP and DNS resolvers. 
 - Fetch DNS resolver information and classify them as Trusted DNS, Blacklisted DNS, or Unknown DNS.
 - Send detailed security alerts via Telegram Bot.
 - Supports monitoring for IP and DNS resolver status at regular intervals.
+- New : Local IP of GSM which use to connect CGNAT to connected to Internet together with its Ephemeral Port.
 
 ## Requirements:
 - Python 3.x
