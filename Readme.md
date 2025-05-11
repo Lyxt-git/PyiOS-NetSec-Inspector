@@ -22,5 +22,8 @@ This Python script performs regular checks on your public IP and DNS resolvers. 
 ### 1. Install Dependencies
 Make sure you have the required dependencies installed. You can install them using `pip`:
 
-```bash
-pip install requests
+- pip install requests
+
+## License
+
+This project is open-source and released under the [MIT License](https://mit-license.org/).
