@@ -27,3 +27,5 @@ Make sure you have the required dependencies installed. You can install them usi
 ## License
 
 This project is open-source and released under the [MIT License](https://mit-license.org/).
+
+- Author : Lyxt
